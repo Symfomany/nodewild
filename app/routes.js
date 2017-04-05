@@ -1,5 +1,34 @@
 var mysql = require('mysql');
 var flash = require('express-flash');
+var blobStream = require('blob-stream');
+
+var express = require('express'),
+		app = express(),
+		pdf = require('express-pdf');
+
+var path = require('path');
+const PDFDocument = require('pdfkit')
+const nodemailer = require('nodemailer');
+
+
+let transporter = nodemailer.createTransport({
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "eccfcf64a912f3",
+    pass: "7bef7b105b4c7b"
+  }
+});
+
+// setup email data with unicode symbols
+let mailOptions = {
+    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
+    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
+    subject: 'Hello ✔', // Subject line
+    text: 'Hello world ?', // plain text body
+    html: '<b>Hello world ?</b>' // html body
+};
+
 
 
 var connection = mysql.createConnection({
@@ -20,10 +49,21 @@ connection.connect(function (err) {
 // app/routes.js
 module.exports = function(app, passport) {
 
+
+	//pdf
+	app.use(pdf);
+
 	// =====================================
 	// HOME PAGE (with login links) ========
 	// =====================================
 	app.get('/', function(req, res) {
+		transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        return console.log(error);
+    }
+				console.log('Message %s sent: %s', info.messageId, info.response);
+		});
+
 		res.render('index'); // load the index.ejs file
 	});
 
@@ -142,6 +182,41 @@ app.get('/contact', function (req, res) {
   res.render('contact',{
 	});
 });
+
+
+
+// =====================================
+// Edit Pages SECTION =========================
+// =====================================
+/**
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ * Page PDF
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+ */
+app.get('/pdf', function(req, res){
+		const doc = new PDFDocument();
+		let filename = req.body.filename;
+		// Stripping special characters
+		filename = encodeURIComponent(filename) + '.pdf';
+		// Setting response to 'attachment' (download).
+		// If you use 'inline' here it will automatically open the PDF
+		res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"');
+		res.setHeader('Content-type', 'application/pdf');
+		const content = `Blablabla...<br />
+		`;
+		doc.y = 300;
+		doc.text(content, 50, 50);
+		doc.pipe(res);
+		doc.end();
+});
+		
+		//  res.pdfFromHTML({
+    //     filename: 'generated.pdf',
+		// 		htmlContent: '<p>ASDF</p>',
+    // });
+		// res.end();
+
+
 
 
 	// =====================================
