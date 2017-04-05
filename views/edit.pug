@@ -1,0 +1,13 @@
+extends layout.pug
+
+block content
+    h1 Editer la page <strong>#{page.clef}</strong>
+    form(action=`/save/${page.id}` method="POST")
+        .form-group
+            label(for='valeur') Contenu
+            |  
+            textarea.form-control(placeholder='Contenu de la page' cols="80" rows="10" name="valeur") #{page.valeur}
+        |  
+        button.btn.btn-default(type='submit' class="btn btn-primary") <i class="fa fa-pencil"></i> Editer ce contenu
+    script.
+        $('#valeur').summernote({height: 300});
