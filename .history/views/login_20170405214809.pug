@@ -1,0 +1,33 @@
+extends layout.pug
+
+block content
+
+    .container
+        .col-sm-6.col-sm-offset-3
+            h1 Se Connecter
+
+            if (message.length > 0)
+                .alert.alert-danger #{message}
+            form(action='/login', method='post')
+                .form-group
+                    label Email
+                    |  
+                    input.form-control(type='text', name='username' placeholder="Votre email")
+                .form-group
+                    label Password
+                    |  
+                    input.form-control(type='password', name='password' placeholder="******")
+                .form-group
+                    input(type='checkbox', name='remember', value='yes') 
+                    label Se souvenir de moi
+                    
+                |  
+                button.btn.btn-warning.btn-lg(type='submit') Se connecter au Back-Office
+                hr
+                p
+                | Need an account? 
+                a(href='/signup') Créer un compte
+                p
+                |  
+                a(href='/pages') Voir les pages
+                | .

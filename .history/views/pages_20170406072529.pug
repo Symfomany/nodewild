@@ -1,0 +1,32 @@
+extends layout.pug
+
+block content
+    
+    h2 Liste des blocks <i>#{pages.length} blocks</i>
+    hr
+    input.form-control(placeholder="Rechercher un block")
+    table.table.table-condensed
+        caption Tous les blocks
+        thead
+            tr
+            th #
+            th Section
+            th Contenu
+            th Action
+        tbody
+            each item in pages
+                tr
+                th(scope='row') #{item.id}
+                td #{item.clef}
+                td #{item.valeur}
+                td  
+                    a(href=`/edit/${item.id}`)
+                        i.fa.fa-pencil(aria-hidden='true')
+                            |Editer ce contenu
+                tr
+    a(href=`/pdf` class="btn btn-md btn-default") Exporter en pdf
+    a(href=`/paypal` class="btn btn-md btn-success") Payer avec Paypal
+    a(href=`/cart` class="btn btn-md btn-success") Ajouter au panier
+
+
+    

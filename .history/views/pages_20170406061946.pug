@@ -1,0 +1,13 @@
+extends layout.pug
+
+block content
+    
+    h1 Bonjour, #{user.username}
+    h2 Liste des blocks #{pages.length}
+    hr
+    ul
+    each item in pages
+        li <b>#{item.clef}</b>  
+            a(href=`/edit/${item.id}`)
+               i.fa.fa-pencil(aria-hidden='true')
+                |Editer ce contenu

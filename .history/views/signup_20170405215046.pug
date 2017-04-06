@@ -1,0 +1,29 @@
+extends layout.pug
+
+block content
+	.col-sm-6.col-sm-offset-3
+		h1
+			span.fa.fa-sign-in
+			|  Enregistrement
+		|  
+		if message.length > 0
+			.alert.alert-danger #{message}
+		form(action='/signup', method='post')
+			.form-group
+				label Email
+				|  
+				input.form-control(type='email', name='username', placeholder="Email" )
+			.form-group
+				label Mot de passe
+				|  
+				input.form-control(type='password', name='password', placeholder="******")
+			|  
+			button.btn.btn-sm.btn-warning.btn-lg(type='submit') Enregistrer ce compte
+		hr
+		p
+			| Already have an account? 
+			a(href='/login') Login
+		p
+			| Or go 
+			a(href='/') home
+			| .

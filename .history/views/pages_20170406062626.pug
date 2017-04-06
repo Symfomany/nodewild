@@ -1,0 +1,38 @@
+extends layout.pug
+
+block content
+    
+    h2 Liste des blocks #{pages.length}
+    hr
+    input.form-control(placeholder="Rechercher un block")
+    table.table
+        caption Optional table caption.
+        thead
+            tr
+            th #
+            th First Name
+            th Last Name
+            th Username
+        tbody
+            tr
+            th(scope='row') 1
+            td Mark
+            td Otto
+            td @mdo
+            tr
+            th(scope='row') 2
+            td Jacob
+            td Thornton
+            td @fat
+            tr
+            th(scope='row') 3
+            td Larry
+            td the Bird
+            td @twitter
+
+    ul
+    each item in pages
+        li <b>#{item.clef}</b>  
+            a(href=`/edit/${item.id}`)
+               i.fa.fa-pencil(aria-hidden='true')
+                |Editer ce contenu

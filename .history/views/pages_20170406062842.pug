@@ -1,0 +1,26 @@
+extends layout.pug
+
+block content
+    
+    h2 Liste des blocks #{pages.length}
+    hr
+    input.form-control(placeholder="Rechercher un block")
+    table.table
+        caption Tous les blocks
+        thead
+            tr
+            th #
+            th Section
+            th Contenu
+            th Action
+        tbody
+            each item in pages
+                tr
+                th(scope='row') #{item.id}
+                td #{item.clef}
+                td #{item.valeur}
+                td  
+                    a(href=`/edit/${item.id}`)
+                        i.fa.fa-pencil(aria-hidden='true')
+                            |Editer ce contenu
+                tr
